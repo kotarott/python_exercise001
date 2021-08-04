@@ -10,7 +10,7 @@ source = ["ねずこ","たんじろう","きょうじゅろう","ぎゆう","げ
 ### 検索ツール
 def search():
     word =input("鬼滅の登場人物の名前を入力してください >>> ")
-    
+    path = 'source.csv'
     ### ここに検索ロジックを書く　1-2
     # if word in source:
     #     print("{}が見つかりした".format(word))
@@ -20,15 +20,24 @@ def search():
     #     print(source)
     
     # 検索・追加（CSV）
-    with open('source.csv', 'r', encoding='utf-8') as f:
-        l = f.readline().rstrip().split(',')
+    nameList = readCSV(path, 'utf-8')
     
-    if word in l:
+    if word in nameList:
         print("{}が見つかりした".format(word))
     else:
         print("{}は存在しませんでした。検索リストについかします。".format(word))
-        with open('source.csv', 'a') as f:
-            f.write(',' + word)
+        writeCSV(path, word, 'utf-8')
+
+### CSV読み込み
+def readCSV(path, encodeType):
+    with open(path, 'r', encoding=encodeType) as f:
+        items = f.readline().rstrip().split(',')
+    return items
+
+### CSV書き込み
+def writeCSV(path, item, encodeType):
+    with open(path, 'a', encoding=encodeType) as f:
+        f.write(',' + item)
 
 if __name__ == "__main__":
     search()
